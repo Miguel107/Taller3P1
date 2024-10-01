@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">  
+    <form method="GET" action="{% url 'recommendations' %}"> 
+        <div class="mb-3"> 
+            <label for="searchMovie" class="form-label"> 
+                Buscar película:
+            </label>
+            <input type="text" class="form-control" name="searchMovie" value="{{ searchTerm }}" placeholder="Ingresa una descripción de película..."/>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>   
+    
+    {% if searchTerm %}
+        <p>Buscando: {{ searchTerm }}</p> 
+    {% endif %}
+    
+    {% if recommended_movie %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card">
+                    <img src="{{ recommended_movie.image.url }}" class="card-img-top" alt="{{ recommended_movie.title }}">   
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ recommended_movie.title }}</h5>
+                        <p class="card-text">{{ recommended_movie.description }}</p>
+                        <p class="card-text">{{ recommended_movie.genre }}</p>
+                        <p class="card-text">{{ recommended_movie.year }}</p>
+                        {% if recommended_movie.url %}
+                            <a href="{{ recommended_movie.url }}" class="btn btn-primary">Ver película</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No se encontró una película adecuada para la descripción proporcionada.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}
